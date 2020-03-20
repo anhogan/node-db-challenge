@@ -39,10 +39,10 @@ router.get('/:id/projects', validateId, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', validateResource, (req, res) => {
   Resources.add(req.body)
     .then(resource => {
-      res.status(200).json(resource);
+      res.status(201).json(resource);
     })
     .catch(error => {
       console.log(error);
@@ -87,6 +87,16 @@ function validateId(req, res, next) {
       console.log(error);
       res.status(500).json({ message: "The resource information could not be retrieved" });
     });
+};
+
+function validateResource(req, res, next) {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).json({ message: "Missing resource data" });
+  } else if (!req.body.name) {
+    res.status(400).json({ message: "Each resource must have a name" });
+  } else {
+    next();
+  };
 };
 
 module.exports = router;

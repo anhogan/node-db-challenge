@@ -20,7 +20,7 @@ function findById(id) {
 function update(changes, id) {
   return db('tasks').where({ id }).update(changes)
     .then(count => {
-      console.log(`Updated ${count} records`);
+      console.log(`Updated ${count} task`);
       return findById(id);
     });
 };
@@ -29,7 +29,7 @@ function update(changes, id) {
 function remove(id) {
   return db('tasks').where({ id }).del()
     .then(count => {
-      console.log(`Deleted ${count} records`);
+      console.log(`Deleted ${count} task`);
       return find();
     });
 };

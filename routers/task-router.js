@@ -55,14 +55,14 @@ function validateId(req, res, next) {
   Tasks.findById(req.params.id)
     .then(task => {
       if (!task) {
-        res.status(404).json({ message: "Invalid task id" });
+        res.status(404).json({ errorMessage: "Invalid task id" });
       } else {
         next();
       };
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({ message: "The task information could not be retrieved" });
+      res.status(500).json({ errorMessage: "The task information could not be retrieved" });
     });
 };
 

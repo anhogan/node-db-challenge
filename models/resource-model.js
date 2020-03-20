@@ -38,7 +38,7 @@ function add(data) {
 function update(changes, id) {
   return db('resources').where({ id }).update(changes)
     .then(count => {
-      console.log(`Updated ${count} records`);
+      console.log(`Updated ${count} resource`);
       return findById(id);
     });
 };
@@ -47,7 +47,7 @@ function update(changes, id) {
 function remove(id) {
   return db('resources').where({ id }).del()
     .then(count => {
-      console.log(`Deleted ${count} records`);
+      console.log(`Deleted ${count} resource`);
       return find();
     });
 };
