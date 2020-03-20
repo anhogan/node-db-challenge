@@ -12,12 +12,12 @@ module.exports = {
 };
 
 function find() {
-  return db('');
+  return db('projects');
 };
 
 // STRETCH
 function findById(id) {
-  return db();
+  return db('projects').where({ id }).first();
 };
 
 // STRETCH
@@ -39,7 +39,7 @@ function addTasks(data, project_id) {
 };
 
 // STRETCH
-function update(id) {
+function update(changes, id) {
   return db();
 };
 

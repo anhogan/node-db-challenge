@@ -10,12 +10,12 @@ module.exports = {
 };
 
 function find() {
-  return db('');
+  return db('resources');
 };
 
 // STRETCH
 function findById(id) {
-  return db();
+  return db('resources').where({ id }).first();
 };
 
 // STRETCH
@@ -28,7 +28,7 @@ function add(data) {
 };
 
 // STRETCH
-function update(id) {
+function update(changes, id) {
   return db();
 };
 
