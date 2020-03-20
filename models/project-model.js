@@ -54,7 +54,7 @@ function addTasks(data, project_id) {
 
   return db('tasks').insert(newTask)
     .then(id => {
-      return findProjectTasks(id[0]);
+      return findProjectTasks(project_id);
     });
 };
 

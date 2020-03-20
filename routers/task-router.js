@@ -29,7 +29,7 @@ router.get('/:id', validateId, (req, res) => {
 
 // STRETCH
 router.put('/:id', validateId, (req, res) => {
-  Tasks.update(req.body, req,params.id)
+  Tasks.update(req.body, req.params.id)
     .then(task => {
       res.status(200).json(task);
     })
