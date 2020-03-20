@@ -5,7 +5,6 @@ module.exports = {
   findById,
   findProjectTasks,
   findProjectResources,
-  findResourcesProjects,
   add,
   addTasks,
   update,
@@ -13,7 +12,7 @@ module.exports = {
 };
 
 function find() {
-  return db();
+  return db('');
 };
 
 // STRETCH
@@ -28,11 +27,6 @@ function findProjectTasks(project_id) {
 
 // STRETCH
 function findProjectResources(project_id) {
-  return db();
-};
-
-// STRETCH
-function findResourcesProjects(resource_id) {
   return db();
 };
 

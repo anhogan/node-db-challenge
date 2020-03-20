@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Resources = require('../data/data-model');
+const Resources = require('../models/resource-model');
 
 const router = express.Router();
 
