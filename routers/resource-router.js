@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 });
 
 // STRETCH
-router.get('/:id', (req, res) => {
+router.get('/:id', validateId, (req, res) => {
   Resources.findById(req.params.id)
     .then(resource => {
       res.status(200).json(resource);
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
 });
 
 // STRETCH
-router.get('/:id/projects', (req, res) => {
+router.get('/:id/projects', validateId, (req, res) => {
   Resources.findResourcesProjects(req.params.id)
     .then(projects => {
       res.status(200).json(projects);
@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
 });
 
 // STRETCH
-router.put('/:id', (req, res) => {
+router.put('/:id', validateId, (req, res) => {
   Resources.update(req.body, req.params.id)
     .then(resource => {
       res.status(200).json(resource);
@@ -63,7 +63,7 @@ router.put('/:id', (req, res) => {
 });
 
 // STRETCH
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateId, (req, res) => {
   Resources.remove(req.params.id)
     .then(resources => {
       res.status(200).json(resources);
@@ -73,5 +73,20 @@ router.delete('/:id', (req, res) => {
       res.status(500).json({ errorMessage: "The resource could not be deleted" });
     });
 });
+
+function validateId(req, res, next) {
+  Resources.findById(req.params.id)
+    .then(resource => {
+      if (!resource) {
+        res.status(404).json({ message: "Invalid resource id" });
+      } else {
+        next();
+      };
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ message: "The resource information could not be retrieved" });
+    });
+};
 
 module.exports = router;
