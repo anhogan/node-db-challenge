@@ -5,31 +5,73 @@ const Resources = require('../models/resource-model');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-
+  Resources.find()
+    .then(resources => {
+      res.status(200).json(resources);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ errorMessage: "The resource information could not be retrieved" });
+    });
 });
 
 // STRETCH
 router.get('/:id', (req, res) => {
-
+  Resources.findById(req.params.id)
+    .then(resource => {
+      res.status(200).json(resource);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ errorMessage: "The resource information could not be retrieved" });
+    });
 });
 
 // STRETCH
 router.get('/:id/projects', (req, res) => {
-
+  Resources.findResourcesProjects(req.params.id)
+    .then(projects => {
+      res.status(200).json(projects);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ errorMessage: "The project information could not be retrieved" });
+    });
 });
 
 router.post('/', (req, res) => {
-
+  Resources.add(req.body)
+    .then(resource => {
+      res.status(200).json(resource);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ errorMessage: "The resource could not be created" });
+    });
 });
 
 // STRETCH
 router.put('/:id', (req, res) => {
-
+  Resources.update(req.body, req.params.id)
+    .then(resource => {
+      res.status(200).json(resource);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ errorMessage: "The resource could not be updated" });
+    });
 });
 
 // STRETCH
 router.delete('/:id', (req, res) => {
-
+  Resources.remove(req.params.id)
+    .then(resources => {
+      res.status(200).json(resources);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ errorMessage: "The resource could not be deleted" });
+    });
 });
 
 module.exports = router;

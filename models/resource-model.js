@@ -20,19 +20,34 @@ function findById(id) {
 
 // STRETCH
 function findResourcesProjects(resource_id) {
-  return db();
+  return db('resources')
+    .join('projects_resources as pr', 'pr.resource_id', 'resources.id')
+    .join('projects', 'projects.id', 'pr.project_id')
+    .select('projects.name', 'projects.description')
+    .where({ resource_id: resource_id});
 };
 
 function add(data) {
-  return db();
+  return db('resources').insert(data)
+    .then(id => {
+      return findById(id[0]);
+    });
 };
 
 // STRETCH
 function update(changes, id) {
-  return db();
+  return db('resources').where({ id }).update(changes)
+    .then(count => {
+      console.log(`Updated ${count} records`);
+      return findById(id);
+    });
 };
 
 // STRETCH
 function remove(id) {
-  return db();
+  return db('resources').where({ id }).del()
+    .then(count => {
+      console.log(`Deleted ${count} records`);
+      return find();
+    });
 };
