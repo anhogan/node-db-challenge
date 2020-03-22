@@ -12,19 +12,27 @@ module.exports = {
 };
 
 function find() {
-  return db('projects');
+  return db('projects')
+    .then(projects => {
+      return projects.map(project => {
+        return {...project, completed: project.completed ? true : false}
+      });
+    });
 };
 
 // STRETCH
 function findById(id) {
-  return db('projects').where({ id }).first();
+  return db('projects').where({ id }).first()
+    .then(project => {
+      return {...project, completed: project.completed ? true : false}
+    });
 };
 
 // STRETCH
 function findProjectTasks(project_id) {
   return db('tasks')
     .join('projects', 'projects.id', 'tasks.project_id')
-    .select('tasks.description', 'tasks.notes', 'tasks.completed')
+    .select('tasks.id', 'tasks.description', 'tasks.notes', 'tasks.completed')
     .where({ project_id: project_id });
 };
 
@@ -33,7 +41,7 @@ function findProjectResources(project_id) {
   return db('projects')
     .join('projects_resources as pr', 'pr.project_id', 'projects.id')
     .join('resources', 'resources.id', 'pr.resource_id')
-    .select('resources.name', 'resources.description')
+    .select('resources.id', 'resources.name', 'resources.description')
     .where({ project_id: project_id });
 };
 

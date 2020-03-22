@@ -17,21 +17,30 @@ router.get('/', (req, res) => {
 
 // STRETCH
 router.get('/:id', validateId, (req, res) => {
-  Projects.findById(req.params.id)
-    .then(project => {
-      res.status(200).json(project);
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ errorMessage: "The project information could not be retrieved" });
+  Promise.all([
+    Projects.findById(req.params.id),
+    Projects.findProjectResources(req.params.id),
+    Projects.findProjectTasks(req.params.id)
+  ])
+  .then(([project, resources, tasksList]) => {
+    const tasks = tasksList.map(task => {
+      return {...task, completed: task.completed ? true : false}
     });
+    res.status(200).json({ project: project, tasks, resources });
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ errorMessage: "The project information could not be retrieved" });
+  });
 });
 
 // STRETCH
 router.get('/:id/tasks', validateId, (req, res) => {
   Projects.findProjectTasks(req.params.id)
     .then(tasks => {
-      res.status(200).json(tasks);
+      return tasks.map(task => {
+        return res.status(200).json({...task, completed: task.completed ? true : false})
+      });
     })
     .catch(error => {
       console.log(error);

@@ -8,12 +8,20 @@ module.exports = {
 };
 
 function find() {
-  return db('tasks');
+  return db('tasks')
+    .then(tasks => {
+      return tasks.map(task => {
+        return {...task, completed: task.completed ? true : false}
+      });
+    });
 };
 
 // STRETCH
 function findById(id) {
-  return db('tasks').where({ id }).first();
+  return db('tasks').where({ id }).first()
+    .then(task => {
+      return {...task, completed: task.completed ? true : false}
+    });
 };
 
 // STRETCH
